@@ -40,7 +40,7 @@ export default function LoginScreen() {
       const userData = await login(username, password, staySignedIn)
 
       // Set user in auth context
-      setUser(userData)
+      await setUser(userData)
 
       // Navigate to protected area
       router.replace("/(protected)/(tabs)/books")

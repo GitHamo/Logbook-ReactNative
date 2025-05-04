@@ -3,12 +3,12 @@ import type { User } from "../types"
 // Mock function to check authentication status
 export async function checkAuthStatus(): Promise<User | null> {
     return new Promise((resolve) => {
-        // Simulate API call with 5-second delay
+        // Simulate API call with a shorter 2-second delay (was 5 seconds)
         setTimeout(() => {
             // Check if we have a token in memory or storage
             // For this mock, we'll just return null to simulate not being authenticated
             resolve(null)
-        }, 5000)
+        }, 2000)
     })
 }
 
@@ -19,10 +19,14 @@ export async function login(username: string, password: string, staySignedIn: bo
         setTimeout(() => {
             // For demo purposes, accept any non-empty username/password
             if (username && password) {
+                // Create a token that includes the staySignedIn preference
+                // In a real app, this would be handled by the backend
+                const expiresIn = staySignedIn ? "30d" : "1h"
+
                 resolve({
                     id: "1",
                     username,
-                    token: "mock-jwt-token",
+                    token: `mock-jwt-token-${staySignedIn ? "long" : "short"}-${Date.now()}`,
                 })
             } else {
                 reject(new Error("Invalid credentials"))
