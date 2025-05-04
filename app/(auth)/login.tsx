@@ -17,13 +17,23 @@ export default function LoginScreen() {
   const { setUser } = useAuth()
 
   const handleLogin = async () => {
+    // Reset error state
+    setError("")
+
+    // Validate required fields
     if (!username || !password) {
       setError("Username and password are required")
       return
     }
 
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(username)) {
+      setError("Please enter a valid email address")
+      return
+    }
+
     setIsLoading(true)
-    setError("")
 
     try {
       // Call login service (mocked with delay)
@@ -54,9 +64,11 @@ export default function LoginScreen() {
             style={styles.input}
             value={username}
             onChangeText={setUsername}
-            placeholder="Enter your username"
+            placeholder="Enter your email"
             autoCapitalize="none"
             autoCorrect={false}
+            keyboardType="email-address"
+            autoComplete="email"
           />
         </View>
 
